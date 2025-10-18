@@ -3,7 +3,7 @@ services:
     image: mysql:8
     container_name: mysql-db
     environment:
-      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: eswar
       MYSQL_DATABASE: projectdb
     ports:
       - "3307:3306"
@@ -11,6 +11,11 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - springboot-mysql-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pdocker"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
 
   backend:
     image: adityaparisi/docker-tmbackend:latest
